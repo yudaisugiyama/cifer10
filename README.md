@@ -1,6 +1,6 @@
-# メニュー*
+[![Open In Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/drive/1wEK-ta-3APQF28ZyCZfNtURjnmC4lSxP?usp=sharing)
 
-## 概要*
+## 概要
 
 CIFAR-10を使用した画像分類器の生成を**Google Colaboratory**+**TensorBoard**で実装します.
 
@@ -12,34 +12,30 @@ CIFAR-10を使用した画像分類器の生成を**Google Colaboratory**+**Tens
 今回取り扱うネットワークは**AlexNet**と**ResNet**です.
 上記のネットワークを**Pytorch**で実装し, トレーニングからテストまでをおこないます.
 
-トレーニング中の様子は**TendorFlow**の視覚化ツールキット**TensorBoard**を実装して確認していきます！
+トレーニング中の様子は**TendorFlow**の視覚化ツールキット**TensorBoard**を実装して確認していきます.
 
-## 学べること*
-
-このレシピを学ぶことで以下の手法を学ぶことができます.
+## 学んだこと
 
 - Google Colaboratoryでの開発
 - TensorBoardの実装
 - Pytorchを利用したCNNの実装
 
-## 始める前のスキルセット*
+## 始める前のスキルセット
 
 - Pythonの基礎知識
 
-## 実務活用例*
+## 実務活用例
 
 - 画像認識(コンピュータービジョン)
 
-# キッチン*
-
-## 開発環境*
+## 開発環境
 
 - Google Colaboratory
 - Ubuntu 18.04.6 LTS
 - TeslaT4
 - Pytorch==1.12.1
 
-## ツール*
+## ツール
 
 - Google Colaboratoryのデフォルトライブラリ
 
@@ -50,9 +46,7 @@ CIFAR-10を使用した画像分類器の生成を**Google Colaboratory**+**Tens
 
 閲覧権限しかないので, 編集する場合はコピーしてください.
 
-CIFAR-10のデータセットは[こちら](https://www.cs.toronto.edu/~kriz/cifar.html#:~:text=CIFAR%2D10%20python%20version)からダウンロードしてください！
-
-# 調理*
+CIFAR-10のデータセットは[こちら](https://www.cs.toronto.edu/~kriz/cifar.html#:~:text=CIFAR%2D10%20python%20version)からダウンロードしてください.
 
 ## GPU settings
 
@@ -64,7 +58,7 @@ CIFAR-10のデータセットは[こちら](https://www.cs.toronto.edu/~kriz/cif
 !nvidia-smi
 ```
 上記のコマンドブロックを実行して以下のような出力がでれば成功です. 
-Google Colaboratoryでコードブロックを実行する場合, 実行したいブロックをクリックしてアクティブにしてShift + Enterで実行できます♪
+Google Colaboratoryでコードブロックを実行する場合, 実行したいブロックをクリックしてアクティブにしてShift + Enterで実行できます.
 
 ```
 Sun Dec 11 10:00:01 2022       
@@ -310,7 +304,7 @@ dataloader_test = torch.utils.data.DataLoader(
 
 DataLoaderは先ほど作ったDatasetを受け取ってミニバッチを取り出すことができます.
 
-また, array(配列)ではなくiterable(繰り返し可能なオブジェクト)の変換もおこなってくれます！ 学習はfor文を使うので, iterableであることは必須条件ですね.
+また, array(配列)ではなくiterable(繰り返し可能なオブジェクト)の変換もおこなってくれます. 学習はfor文を使うので, iterableでなければなりません.
 
 今回, ミニバッチのサイズは```batch_size = 500```で設定しております.
 
@@ -326,7 +320,7 @@ DataLoaderは先ほど作ったDatasetを受け取ってミニバッチを取り
 
 今回のデータセットにチューニングしたネットワーク構造は以下のようになります.
 
-![](https://api.axross-recipe.com/attachments/5b3e569f-6c32-4a13-9041-17fabeefb10a/url)
+![](alexnet.png)
 
 AlexNetでは活性化関数として, ReLU(Rectified Liner Unit)が使用されています. ReLUは下記の式で表されます.
 
@@ -337,7 +331,6 @@ $$
 旧来のニューラルネットワークでの活性化関数には, シグモイド関数やハイパボリックタンジェントなどが使用されていましたが, これらの飽和型の関数は, 挿入数が増すごとに微分値が小さくなっていくので, 多層になるほど勾配爆発・消失が起こります.
 
 非飽和型のReLUを主に用いるAlexNetでは勾配爆発・消失の回避と, 勾配値が増加することによる学習高速化を達成しました.
-
 
 実装コードは以下のようになります.
 
@@ -389,7 +382,7 @@ ResNetのResdual Blockにはプレーンアーキテクチャとボトルネッ�
 
 プレーンアーキテクチャについては, 論文と以下の実装コードを参照してみてください.
 
-残差ブロックの詳細については次章ボトルネックアーキテクチャを例に説明します！
+残差ブロックの詳細については次章ボトルネックアーキテクチャを例に説明します.
 
 ```python
 def conv3x3(in_channels, out_channels, stride=1):
@@ -534,13 +527,11 @@ $x$
 $x$
 は入力に対しての恒等写像で大きい値です. 
 
-![](https://api.axross-recipe.com/attachments/df466078-9a59-43af-95ed-158a5a53a4f1/url)
+![](residual-block.png)
 
 このShortcut Connectionが深層部分にまで接続されているので, 逆伝搬時に大きい誤差を伝搬させ, 勾配爆発・消失を回避できるようになりました.
 
 先程の論文では最大152層のモデルが考案されています.
-
-ResNetはただ多層にできただけでなく, 多層にすることによって性能が落ちてしまうデグレーションの回避もしているところが凄いと思います(笑).
 
 実装コードは以下のとおりです.
 
@@ -744,15 +735,15 @@ AlexNet(
 
 ## Prepare TensorBoard
 
-トレーニングまでもう目前です！
+トレーニングまでもう目前です.
 
 トレーニング中の様子を可視化するためにここで**TensorBoard**の準備をしておきます. 
 
 SummaryWriterをインポートし, TensorBoardで出力したいデータの保存場所を決めておきます. 
 
-準備はこれだけです！ 簡単ですね. 
+準備はこれだけです.
 
-ではいよいよトレーニングに移りましょう！
+ではいよいよトレーニングに移りましょう.
 
 ```python
 from torch.utils.tensorboard import SummaryWriter    
@@ -788,7 +779,7 @@ writer = SummaryWriter(log_dir="./logs")
 
 学習率減衰の様子は以下のようになります. 10epoch終了後に減衰させています.
 
-![](https://api.axross-recipe.com/attachments/12502e24-a847-452f-bff7-d5b97bd100b2/url)
+![](lr.PNG)
 
 実際のコードは以下のようになります.
 
@@ -878,11 +869,9 @@ torch.save(conv_net.state_dict(), PATH)
 
 ## Visualization
 
-トレーニング終了です！
+トレーニング終了です.
 
-Googleが無償で提供するGPUの使い心地はどうでしたか？
-
-トレーニング終了後, 以下のコードブロックを実行してTensorBoardを立ち上げてみましょう！
+トレーニング終了後, 以下のコードブロックを実行してTensorBoardを立ち上げてみましょう.
 
 ```python
 %load_ext tensorboard
@@ -893,7 +882,7 @@ Googleが無償で提供するGPUの使い心地はどうでしたか？
 
 AlexNetでのトレーニングは以下のようになりました.
 
-![](https://api.axross-recipe.com/attachments/7316e003-9bb0-48dc-9abb-a9b428eff2a0/url)
+![](alexnet-status.PNG)
 
 10epoch目直後にTrainとValidationの精度(Train_Acc and Valid_Acc)が急激に向上していることが確認できます.
 
@@ -901,13 +890,13 @@ AlexNetでのトレーニングは以下のようになりました.
 
 ResNetでのトレーニングは以下のようになりました.
 
-![](https://api.axross-recipe.com/attachments/02d43cf1-c37d-4385-a83e-387a66e40f44/url)
+![](resnet-status.PNG)
 
 同じく学習率減衰の効果が確認できると思います.
 
 しかし, 過学習が起きてトレーニングの精度(Train_Acc)が限りなく100%に近づいてしまい,  12epoch目からバリデーションの精度(Valid_Acc)がほとんど変わらなくなってしまいました.
 
-それでも, validationの精度はAlexNetより高そうですね(笑)
+それでも, validationの精度はAlexNetより高そうですね.
 
 次章でテストの結果を見てみましょう.
 
@@ -976,5 +965,4 @@ AlexNetで**77.9%**, ResNetで**79.2%** という結果になりました.
 
 今回の結果ではResNetが過学習になってしまっているので, 是非改善の方法を探索していただければなと思います.
 
-最後までご覧いただきありがとうございます^^
-# cifer10
+最後までご覧いただきありがとうございます.
